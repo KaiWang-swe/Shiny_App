@@ -2,8 +2,7 @@ library(shiny)
 library(dplyr)
 library(ggplot2)
 library(data.table)
-devtools::install_github("rstudio/leaflet")
-library(leaflet)
+
 
 vgsales <- na.omit(read.csv('./data/vgsales.csv'))
 

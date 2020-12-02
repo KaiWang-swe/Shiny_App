@@ -1,4 +1,15 @@
-function(input, output) {
+function(input, output, session) {
+    # first navbar
+    
+    vgsales_db <- reactive({
+        vgsales %>% filter(Genre == input$Genre)
+    })
+    
+    observeEvent(input$Genre, {
+        choices = unique(vgsales_db()['Platform'])
+        updateSelectizeInput(session, inputId = 'Platform', choices = choices)
+    })
+    
     output$trend <- renderPlot(
         vgsales %>%
             filter(Genre == input$Genre &
@@ -14,17 +25,21 @@ function(input, output) {
     )
     
     
+ 
+    
+    
     output$comparison_region <- renderPlot(
         
         v %>%
             select(Year,sales,Region) %>% 
+            filter(Year>input$obs) %>% 
             group_by(Year,Region) %>% 
             summarise(sales=sum(sales))  %>% 
             ggplot(aes(x = Year,y=sales)) +
             geom_point(aes(color=Region)) +
             ggtitle('Compare Region') +
             theme_bw() +
-            xlab('Sales in millions')+
+            ylab('Sales in millions')+
             geom_line(aes(group=Region,color=Region))
     )
     
@@ -32,7 +47,7 @@ function(input, output) {
         select(Year,sales,Genre) %>% 
         group_by(Genre) %>% 
         summarise(sales=sum(sales)) %>% 
-        top_n(3,sales) 
+        top_n(10,sales) 
     genre_name$Genre
     
     output$comparison_genre <- renderPlot(
@@ -46,7 +61,7 @@ function(input, output) {
             geom_point(aes(shape=Genre,color=Genre)) +
             ggtitle('Compare Genre') +
             theme_bw() +
-            xlab('Sales in millions')+
+            ylab('Sales in millions')+
             geom_line(aes(group=Genre,color=Genre))
     )
     
@@ -55,7 +70,7 @@ function(input, output) {
         select(Year,sales,Platform) %>% 
         group_by(Platform) %>% 
         summarise(sales=sum(sales)) %>% 
-        top_n(3,sales) 
+        top_n(15,sales) 
     platform_name$Platform
     
     output$comparison_platform <- renderPlot(
@@ -69,7 +84,7 @@ function(input, output) {
             geom_point(aes(shape=Platform,color=Platform)) +
             ggtitle('Compare Platform') +
             theme_bw() +
-            xlab('Sales in millions')+
+            ylab('Sales in millions')+
         geom_line(aes(group=Platform,color=Platform))
     )
             

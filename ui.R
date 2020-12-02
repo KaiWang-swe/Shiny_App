@@ -10,12 +10,17 @@ fluidPage(
                            choices = unique(vgsales$Genre)),
             selectizeInput(inputId = "Platform",
                            label = "Game Platform",
-                           choices = unique(vgsales$Platform)),
+                           #choices = unique(vgsales$Platform)
+                           choices = NULL),
             
             selectizeInput(inputId = "Region",
                            label = "Region",
-                           choices = c('NA','EU','JP','Global'))
+                           choices = c('NA','EU','JP','Global')),
             
+            sliderInput("obs", "Starting years for comparison:",
+                    
+                        min = 1980, max = 2015, value = 10
+            )
             
         ),
         mainPanel(
@@ -26,9 +31,7 @@ fluidPage(
                              column(6,plotOutput('trend'))
                          )
                 ),
-                tabPanel('Map',
-                         leafletOutput("mymap")
-                ),
+            
                 tabPanel('Region Comparison',
                          plotOutput("comparison_region")
                 ),
