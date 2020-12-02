@@ -24,7 +24,8 @@ function(input, output) {
             geom_point(aes(color=Region)) +
             ggtitle('Compare Region') +
             theme_bw() +
-            xlab('Sales in millions')
+            xlab('Sales in millions')+
+            geom_line(aes(group=Region,color=Region))
     )
     
     genre_name <- v %>%
@@ -45,7 +46,8 @@ function(input, output) {
             geom_point(aes(shape=Genre,color=Genre)) +
             ggtitle('Compare Genre') +
             theme_bw() +
-            xlab('Sales in millions')
+            xlab('Sales in millions')+
+            geom_line(aes(group=Genre,color=Genre))
     )
     
     
@@ -64,10 +66,12 @@ function(input, output) {
             group_by(Year,Platform) %>% 
             summarise(sales=sum(sales))  %>% 
             ggplot(aes(x = Year,y=sales)) +
-            geom_point(aes(size=Platform,shape=Platform,color=Platform)) +
+            geom_point(aes(shape=Platform,color=Platform)) +
             ggtitle('Compare Platform') +
             theme_bw() +
-            xlab('Sales in millions'))
+            xlab('Sales in millions')+
+        geom_line(aes(group=Platform,color=Platform))
+    )
             
     
     
