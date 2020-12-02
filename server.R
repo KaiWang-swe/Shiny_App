@@ -14,6 +14,68 @@ function(input, output) {
     )
     
     
+    output$comparison_region <- renderPlot(
+        
+        v %>%
+            select(Year,sales,Region) %>% 
+            group_by(Year,Region) %>% 
+            summarise(sales=sum(sales))  %>% 
+            ggplot(aes(x = Year,y=sales)) +
+            geom_point(aes(color=Region)) +
+            ggtitle('Compare Region') +
+            theme_bw() +
+            xlab('Sales in millions')
+    )
+    
+    genre_name <- v %>%
+        select(Year,sales,Genre) %>% 
+        group_by(Genre) %>% 
+        summarise(sales=sum(sales)) %>% 
+        top_n(3,sales) 
+    genre_name$Genre
+    
+    output$comparison_genre <- renderPlot(
+        
+        v %>%
+            select(Year,sales,Genre) %>% 
+            filter(Genre %in% genre_name$Genre) %>% 
+            group_by(Year,Genre) %>% 
+            summarise(sales=sum(sales))  %>% 
+            ggplot(aes(x = Year,y=sales)) +
+            geom_point(aes(shape=Genre,color=Genre)) +
+            ggtitle('Compare Genre') +
+            theme_bw() +
+            xlab('Sales in millions')
+    )
+    
+    
+    platform_name <- v %>%
+        select(Year,sales,Platform) %>% 
+        group_by(Platform) %>% 
+        summarise(sales=sum(sales)) %>% 
+        top_n(3,sales) 
+    platform_name$Platform
+    
+    output$comparison_platform <- renderPlot(
+        
+        v %>%
+            select(Year,sales,Platform) %>% 
+            filter(Platform %in% platform_name$Platform) %>% 
+            group_by(Year,Platform) %>% 
+            summarise(sales=sum(sales))  %>% 
+            ggplot(aes(x = Year,y=sales)) +
+            geom_point(aes(size=Platform,shape=Platform,color=Platform)) +
+            ggtitle('Compare Platform') +
+            theme_bw() +
+            xlab('Sales in millions'))
+            
+    
+    
+    
+    
+    
+    
+    
     output$top5 <- renderPlot(
         vgsales %>%
             filter(Genre == input$Genre &

@@ -7,6 +7,21 @@ library(leaflet)
 
 vgsales <- na.omit(read.csv('./data/vgsales.csv'))
 
+
+v.na=select(vgsales,Name,Platform,Year,Genre,sales=NA_Sales)
+colnames(v.na)
+v.na$Region='NA'
+head(v.na)
+v.eu=select(vgsales,Name,Platform,Year,Genre,sales=EU_Sales)
+v.eu$Region='EU'
+v.jp=select(vgsales,Name,Platform,Year,Genre,sales=JP_Sales)
+v.jp$Region='JP'
+v.gb=select(vgsales,Name,Platform,Year,Genre,sales=Global_Sales)
+v.gb$Region='Global'
+v <- list(v.na,v.eu,v.jp,v.gb) %>% bind_rows()
+v <- v %>%
+  filter(Year != 'N/A')
+
 vgsales <- vgsales %>%
   filter(Year != 'N/A')
 
@@ -42,4 +57,6 @@ df_lst = list(vgsales, vgsales2, vgsales3, vgsales4)
 
 vgsales <-
   list(vgsales, vgsales2, vgsales3, vgsales4) %>% bind_rows()
+colnames(vgsales)
+
 

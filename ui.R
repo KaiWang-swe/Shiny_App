@@ -29,6 +29,15 @@ fluidPage(
                 tabPanel('Map',
                          leafletOutput("mymap")
                 ),
+                tabPanel('Region Comparison',
+                         plotOutput("comparison_region")
+                ),
+                tabPanel('Genre Comparison',
+                         plotOutput("comparison_genre")
+                ),
+                tabPanel('Platform Comparison',
+                         plotOutput("comparison_platform")
+                ),
                 tabPanel('Table',
                          dataTableOutput('table')
                          
