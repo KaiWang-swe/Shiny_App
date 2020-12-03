@@ -12,6 +12,7 @@ function(input, output, session) {
     
     output$trend <- renderPlot(
         vgsales %>%
+            filter(Year>input$obs) %>% 
             filter(Genre == input$Genre &
                        Platform == input$Platform) %>%
             select(Year, 'sales' = starts_with(input$Region, ignore.case = F)) %>%
@@ -54,6 +55,7 @@ function(input, output, session) {
         
         v %>%
             select(Year,sales,Genre) %>% 
+            filter(Year>input$obs) %>% 
             filter(Genre %in% genre_name$Genre) %>% 
             group_by(Year,Genre) %>% 
             summarise(sales=sum(sales))  %>% 
@@ -77,6 +79,7 @@ function(input, output, session) {
         
         v %>%
             select(Year,sales,Platform) %>% 
+            filter(Year>input$obs) %>% 
             filter(Platform %in% platform_name$Platform) %>% 
             group_by(Year,Platform) %>% 
             summarise(sales=sum(sales))  %>% 
