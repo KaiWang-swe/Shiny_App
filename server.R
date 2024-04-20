@@ -1,3 +1,8 @@
+// Copyright (c) [year] [your full name]
+// This software and associated documentation files are licensed under the MIT License. See the LICENSE file for details.
+
+
+
 function(input, output, session) {
     # first navbar
     
