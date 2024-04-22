@@ -1,4 +1,4 @@
-// Copyright (c) [year] [your full name]
+// Copyright (c) 2020 Kai Wang
 // This software and associated documentation files are licensed under the MIT License. See the LICENSE file for details.
 
 
